@@ -1,17 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const taskList = document.getElementById('taskList')
+    const taskInput = document.getElementById('newTaskInput')
+    const addTaskButton = document.getElementById('addTaskButton')
 
-    let tasks = ['Покормить кота', 'Купить молоко', 'Сделать ДЗ']
+    let tasks = []
 
     function renderTasks() {
         taskList.innerHTML = ''
-        tasks.forEach(taskText => {
+        tasks.forEach(taskObject => {
             const listItem = document.createElement('li')
-            listItem.textContent = taskText
+            listItem.textContent = taskObject.text
             taskList.appendChild(listItem)
         })
     }
-    
+
+    function addTask() {
+        const taskText = taskInput.value.trim()
+        if (taskText === '') {
+            alert('Пожайлуста, введите текст задачи!')
+            return
+        }
+        const newTask = {
+            id : Date.now(),
+            text: taskText,
+            completed: false
+        }
+        tasks.push(newTask)
+        taskInput.value = ''
+        renderTasks()
+    }
+
+    addTaskButton.addEventListener('click', addTask)
     renderTasks()
 })
