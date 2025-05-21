@@ -31,7 +31,21 @@ h1 {
     flex-grow: 1;
     padding: 10px 15px;
     border: 1px solid lightgray;
-    border-radius: 5px;
     font-size: 15px;
     outline: none;
+}
+
+#addTaskButton {
+    padding: 10px 20px;
+    background-color: rgb(70, 230, 70);
+    color: white;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#taskList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
