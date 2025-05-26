@@ -22,13 +22,31 @@ document.addEventListener('DOMContentLoaded', () => {
             if (taskObject.completed) {
                 listItem.classList.add('completed')
             }
-
+            
             const taskTextSpan = document.createElement('span')
             taskTextSpan.textContent = taskObject.text
 
+            const actionsDiv = document.createElement('div')
+            actionsDiv.classList.add('actions')
+
+            const deleteButton = document.createElement('button')
+            deleteButton.textContent = 'Удалить'
+            deleteButton.classList.add('delete-btn')
+
+            deleteButton.addEventListener('click', () => {
+                deleteTask(taskObject.id)
+            })
+
+            actionsDiv.appendChild(deleteButton)
             listItem.appendChild(taskTextSpan)
+            listItem.appendChild(actionsDiv)
             taskList.appendChild(listItem)
         })
+    }
+
+    function deleteTask(taskId) {
+        tasks = tasks.filter(task => task.id !== taskId)
+        renderTasks()
     }
 
     function addTask() {
