@@ -29,6 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const actionsDiv = document.createElement('div')
             actionsDiv.classList.add('actions')
 
+            const completeButton = document.createElement('button')
+            completeButton.textContent = taskObject.completed ? 'Отменить' : 'Готово'
+            completeButton.classList.add('complete-btn')
+
+            completeButton.addEventListener('click', () => {
+                completeTask(taskObject.id)
+            })
+
             const deleteButton = document.createElement('button')
             deleteButton.textContent = 'Удалить'
             deleteButton.classList.add('delete-btn')
@@ -37,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteTask(taskObject.id)
             })
 
+            actionsDiv.appendChild(completeButton)
             actionsDiv.appendChild(deleteButton)
             listItem.appendChild(taskTextSpan)
             listItem.appendChild(actionsDiv)
