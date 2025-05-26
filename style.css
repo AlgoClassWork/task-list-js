@@ -49,3 +49,22 @@ h1 {
     margin: 0;
     padding: 0;
 }
+
+#taskList li {
+    background-color: aliceblue;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid lightgray;
+}
+
+#taskList li:hover {
+    background-color: whitesmoke;
+}
+
+#taskList li span {
+    margin-right: 10px;
+}
