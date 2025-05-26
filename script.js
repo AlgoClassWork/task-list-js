@@ -53,6 +53,16 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    function completeTask(taskId) {
+        tasks = tasks.map(task => {
+            if (task.id === taskId) {
+                return {...task, completed: !task.completed}
+            }
+            return task
+        })
+        renderTasks()
+    }
+
     function deleteTask(taskId) {
         tasks = tasks.filter(task => task.id !== taskId)
         renderTasks()
