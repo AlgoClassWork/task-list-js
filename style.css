@@ -68,3 +68,18 @@ h1 {
 #taskList li span {
     margin-right: 10px;
 }
+
+#taskList li .actions button {
+    background-color: transparent;
+    border: 1px solid lightgray;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 15px;
+}
+
+#taskList li .actions .delete-btn {
+    color: red;
+    border-color: red;
+}
