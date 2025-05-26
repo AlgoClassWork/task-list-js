@@ -65,6 +65,11 @@ h1 {
     background-color: whitesmoke;
 }
 
+#taskList li.completed span {
+    text-decoration: line-through;
+    color: darkgray;
+}
+
 #taskList li span {
     margin-right: 10px;
 }
@@ -77,6 +82,16 @@ h1 {
     cursor: pointer;
     margin-left: 10px;
     font-size: 15px;
+}
+
+#taskList li .actions .complete-btn {
+    color: green;
+    border-color: green;
+}
+
+#taskList li.completed .actions .complete-btn {
+    color: yellow;
+    border-color: yellow;
 }
 
 #taskList li .actions .delete-btn {
