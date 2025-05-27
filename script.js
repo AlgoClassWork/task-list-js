@@ -4,7 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.getElementById('newTaskInput')
     const addTaskButton = document.getElementById('addTaskButton')
 
-    let tasks = []
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || []
+
+    function saveTasks() {
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+    }
 
     function renderTasks() {
         taskList.innerHTML = ''
@@ -60,11 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return task
         })
+        saveTasks()
         renderTasks()
     }
 
     function deleteTask(taskId) {
         tasks = tasks.filter(task => task.id !== taskId)
+        saveTasks()
         renderTasks()
     }
 
@@ -81,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         tasks.push(newTask)
         taskInput.value = ''
+        saveTasks()
         renderTasks()
     }
 
