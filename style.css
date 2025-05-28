@@ -19,9 +19,11 @@ body {
 }
 
 .options-grid {
-    display: grid;
-    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     margin-bottom: 30px;
+    gap: 20px;
 }
 
 .option-button {
@@ -31,6 +33,7 @@ body {
     padding: 15px;
     border-radius: 5px;
     cursor: pointer;
+    width: 40%;
 }
 
 .option-button:hover {
