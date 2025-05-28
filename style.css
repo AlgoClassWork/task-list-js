@@ -5,96 +5,34 @@ body {
     padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 }
 
-.todo-container {
+.quiz-container {
     background-color: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 5px 10px black;
+    box-shadow: 0 10px 20px black;
     width: 100%;
-    margin-top: 20px;
-}
-
-h1 {
+    max-width: 800px;
     text-align: center;
-    margin-bottom: 20px;
 }
 
-.input-section {
-    display: flex;
-    margin-bottom: 20px;
+.options-grid {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 30px;
 }
 
-#newTaskInput {
-    flex-grow: 1;
-    padding: 10px 15px;
-    border: 1px solid lightgray;
-    font-size: 15px;
-    outline: none;
-}
-
-#addTaskButton {
-    padding: 10px 20px;
-    background-color: rgb(70, 230, 70);
+.option-button {
+    background-color: lightskyblue;
     color: white;
     border: none;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-#taskList {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-#taskList li {
-    background-color: aliceblue;
     padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid lightgray;
-}
-
-#taskList li:hover {
-    background-color: whitesmoke;
-}
-
-#taskList li.completed span {
-    text-decoration: line-through;
-    color: darkgray;
-}
-
-#taskList li span {
-    margin-right: 10px;
-}
-
-#taskList li .actions button {
-    background-color: transparent;
-    border: 1px solid lightgray;
-    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    margin-left: 10px;
-    font-size: 15px;
 }
 
-#taskList li .actions .complete-btn {
-    color: green;
-    border-color: green;
-}
-
-#taskList li.completed .actions .complete-btn {
-    color: yellow;
-    border-color: yellow;
-}
-
-#taskList li .actions .delete-btn {
-    color: red;
-    border-color: red;
+.option-button:hover {
+    background-color: lightseagreen;
 }
