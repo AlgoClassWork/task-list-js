@@ -1,96 +1,71 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const taskList = document.getElementById('taskList')
-    const taskInput = document.getElementById('newTaskInput')
-    const addTaskButton = document.getElementById('addTaskButton')
+    const quizData = [
+        { 
+            question : 'Какого цвета чернокожие?',
+            options: ['Белые', 'Черные', 'Зеленые', 'Голубые'],
+            correctAnswer: 'Черные'
+        },
+        { 
+            question : 'Какая река самая длинная?',
+            options: ['Нил', 'Амазонка', 'Янцзы', 'Миссисипи'],
+            correctAnswer: 'Нил'
+        },
+        { 
+            question : 'В каком году началась Вторая мировая война?',
+            options: ['1938', '1941', '1940', '1939'],
+            correctAnswer: '1939'
+        },
+    ]
 
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || []
+    let currentQuestionIndex = 0
+    let score = 0
 
-    function saveTasks() {
-        localStorage.setItem('tasks', JSON.stringify(tasks))
-    }
+    const questionTitle = document.getElementById('question-title')
+    const optionsContainer = document.getElementById('options-container')
+    const nextButton = document.getElementById('next-button')
+    const resultContainer = document.getElementById('result-container')
+    const scoreText = document.getElementById('score-text')
+    const restartButton = document.getElementById('restart-button')
 
-    function renderTasks() {
-        taskList.innerHTML = ''
+    function loadQuestion() {
+        optionsContainer.innerHTML = ''
+        nextButton.style.display = 'none'
 
-        if (tasks.length === 0) {
-            const emptyMessage = document.createElement('p')
-            emptyMessage.textContent = 'Список дел пуст!'
-            emptyMessage.style.textAlign = 'center'
-            taskList.appendChild(emptyMessage)
-        }
+        const currentQuestion = quizData[currentQuestionIndex]
+        questionTitle.textContent = currentQuestion.question
 
-        tasks.forEach(taskObject => {
-            const listItem = document.createElement('li')
+        currentQuestion.options.forEach (optionText => {
+            const button = document.createElement('button')
+            button.textContent = optionText
+            button.classList.add('option-button')
 
-            if (taskObject.completed) {
-                listItem.classList.add('completed')
-            }
-            
-            const taskTextSpan = document.createElement('span')
-            taskTextSpan.textContent = taskObject.text
-
-            const actionsDiv = document.createElement('div')
-            actionsDiv.classList.add('actions')
-
-            const completeButton = document.createElement('button')
-            completeButton.textContent = taskObject.completed ? 'Отменить' : 'Готово'
-            completeButton.classList.add('complete-btn')
-
-            completeButton.addEventListener('click', () => {
-                completeTask(taskObject.id)
+            button.addEventListener('click', () => {
+                selectAnswer(button, optionText, currentQuestion.correctAnswer)
             })
 
-            const deleteButton = document.createElement('button')
-            deleteButton.textContent = 'Удалить'
-            deleteButton.classList.add('delete-btn')
+            optionsContainer.appendChild(button)
+        })    
+    }
 
-            deleteButton.addEventListener('click', () => {
-                deleteTask(taskObject.id)
+    function selectAnswer(selectedButton, selectedOption, correctAnswer) {
+        const allOptionButtons = optionsContainer.querySelectorAll('.option-button')
+        allOptionButtons.forEach(btn => {
+            btn.classList.add('disabled')
+        })
+        if (selectedOption === correctAnswer) {
+            selectedButton.classList.add('correct')
+            score += 1
+        } else {
+            selectedButton.classList.add('incorrect')
+            allOptionButtons.forEach(btn => {
+                if (btn.textContent === correctAnswer) {
+                    btn.classList.add('correct')
+                }
             })
-
-            actionsDiv.appendChild(completeButton)
-            actionsDiv.appendChild(deleteButton)
-            listItem.appendChild(taskTextSpan)
-            listItem.appendChild(actionsDiv)
-            taskList.appendChild(listItem)
-        })
-    }
-
-    function completeTask(taskId) {
-        tasks = tasks.map(task => {
-            if (task.id === taskId) {
-                return {...task, completed: !task.completed}
-            }
-            return task
-        })
-        saveTasks()
-        renderTasks()
-    }
-
-    function deleteTask(taskId) {
-        tasks = tasks.filter(task => task.id !== taskId)
-        saveTasks()
-        renderTasks()
-    }
-
-    function addTask() {
-        const taskText = taskInput.value.trim() 
-        if (taskText === '') {
-            alert('Пожайлуста, введите текст задачи!')
-            return
         }
-        const newTask = {
-            id : Date.now(), 
-            text: taskText, 
-            completed: false 
-        }
-        tasks.push(newTask)
-        taskInput.value = ''
-        saveTasks()
-        renderTasks()
+        nextButton.style.display = 'inline-block'
     }
 
-    addTaskButton.addEventListener('click', addTask)
-    renderTasks()
+    loadQuestion()
 })
