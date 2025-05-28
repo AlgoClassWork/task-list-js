@@ -36,3 +36,16 @@ body {
 .option-button:hover {
     background-color: lightseagreen;
 }
+
+.option-button.correct {
+    background-color: rgb(50, 200, 50);
+}
+
+.option-button.incorrect {
+    background-color: rgb(200, 50, 50);
+}
+
+.option-button.disabled {
+    pointer-events: none;
+    opacity: 0.8;
+}
