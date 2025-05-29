@@ -1,71 +1,96 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const quizData = [
-        { 
-            question : 'Какого цвета чернокожие?',
-            options: ['Белые', 'Черные', 'Зеленые', 'Голубые'],
-            correctAnswer: 'Черные'
-        },
-        { 
-            question : 'Какая река самая длинная?',
-            options: ['Нил', 'Амазонка', 'Янцзы', 'Миссисипи'],
-            correctAnswer: 'Нил'
-        },
-        { 
-            question : 'В каком году началась Вторая мировая война?',
-            options: ['1938', '1941', '1940', '1939'],
-            correctAnswer: '1939'
-        },
-    ]
+    const taskList = document.getElementById('taskList')
+    const taskInput = document.getElementById('newTaskInput')
+    const addTaskButton = document.getElementById('addTaskButton')
 
-    let currentQuestionIndex = 0
-    let score = 0
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || []
 
-    const questionTitle = document.getElementById('question-title')
-    const optionsContainer = document.getElementById('options-container')
-    const nextButton = document.getElementById('next-button')
-    const resultContainer = document.getElementById('result-container')
-    const scoreText = document.getElementById('score-text')
-    const restartButton = document.getElementById('restart-button')
-
-    function loadQuestion() {
-        optionsContainer.innerHTML = ''
-        nextButton.style.display = 'none'
-
-        const currentQuestion = quizData[currentQuestionIndex]
-        questionTitle.textContent = currentQuestion.question
-
-        currentQuestion.options.forEach (optionText => {
-            const button = document.createElement('button')
-            button.textContent = optionText
-            button.classList.add('option-button')
-
-            button.addEventListener('click', () => {
-                selectAnswer(button, optionText, currentQuestion.correctAnswer)
-            })
-
-            optionsContainer.appendChild(button)
-        })    
+    function saveTasks() {
+        localStorage.setItem('tasks', JSON.stringify(tasks))
     }
 
-    function selectAnswer(selectedButton, selectedOption, correctAnswer) {
-        const allOptionButtons = optionsContainer.querySelectorAll('.option-button')
-        allOptionButtons.forEach(btn => {
-            btn.classList.add('disabled')
-        })
-        if (selectedOption === correctAnswer) {
-            selectedButton.classList.add('correct')
-            score += 1
-        } else {
-            selectedButton.classList.add('incorrect')
-            allOptionButtons.forEach(btn => {
-                if (btn.textContent === correctAnswer) {
-                    btn.classList.add('correct')
-                }
-            })
+    function renderTasks() {
+        taskList.innerHTML = ''
+
+        if (tasks.length === 0) {
+            const emptyMessage = document.createElement('p')
+            emptyMessage.textContent = 'Список дел пуст!'
+            emptyMessage.style.textAlign = 'center'
+            taskList.appendChild(emptyMessage)
         }
-        nextButton.style.display = 'inline-block'
+
+        tasks.forEach(taskObject => {
+            const listItem = document.createElement('li')
+
+            if (taskObject.completed) {
+                listItem.classList.add('completed')
+            }
+            
+            const taskTextSpan = document.createElement('span')
+            taskTextSpan.textContent = taskObject.text
+
+            const actionsDiv = document.createElement('div')
+            actionsDiv.classList.add('actions')
+
+            const completeButton = document.createElement('button')
+            completeButton.textContent = taskObject.completed ? 'Отменить' : 'Готово'
+            completeButton.classList.add('complete-btn')
+
+            completeButton.addEventListener('click', () => {
+                completeTask(taskObject.id)
+            })
+
+            const deleteButton = document.createElement('button')
+            deleteButton.textContent = 'Удалить'
+            deleteButton.classList.add('delete-btn')
+
+            deleteButton.addEventListener('click', () => {
+                deleteTask(taskObject.id)
+            })
+
+            actionsDiv.appendChild(completeButton)
+            actionsDiv.appendChild(deleteButton)
+            listItem.appendChild(taskTextSpan)
+            listItem.appendChild(actionsDiv)
+            taskList.appendChild(listItem)
+        })
     }
 
-    loadQuestion()
+    function completeTask(taskId) {
+        tasks = tasks.map(task => {
+            if (task.id === taskId) {
+                return {...task, completed: !task.completed}
+            }
+            return task
+        })
+        saveTasks()
+        renderTasks()
+    }
+
+    function deleteTask(taskId) {
+        tasks = tasks.filter(task => task.id !== taskId)
+        saveTasks()
+        renderTasks()
+    }
+
+    function addTask() {
+        const taskText = taskInput.value.trim() 
+        if (taskText === '') {
+            alert('Пожайлуста, введите текст задачи!')
+            return
+        }
+        const newTask = {
+            id : Date.now(), 
+            text: taskText, 
+            completed: false 
+        }
+        tasks.push(newTask)
+        taskInput.value = ''
+        saveTasks()
+        renderTasks()
+    }
+
+    addTaskButton.addEventListener('click', addTask)
+    renderTasks()
 })
